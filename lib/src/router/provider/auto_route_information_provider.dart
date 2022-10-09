@@ -16,17 +16,18 @@ class AutoRouteInformationProvider extends RouteInformationProvider
       {RouteInformation? initialRouteInformation}) {
     final initialRouteInfo = initialRouteInformation ??
         RouteInformation(
-          location: WidgetsBinding.instance?.window.defaultRouteName ??
-              Navigator.defaultRouteName,
-        );
+            location: WidgetsBinding.instance.window.defaultRouteName);
     return AutoRouteInformationProvider._(
       initialRouteInformation: initialRouteInfo,
     );
   }
 
   @override
-  void routerReportsNewRouteInformation(RouteInformation routeInformation,
-      {required RouteInformationReportingType type, bool isNavigation = true}) {
+  void routerReportsNewRouteInformation(
+    RouteInformation routeInformation, {
+    RouteInformationReportingType type = RouteInformationReportingType.none,
+    bool isNavigation = true,
+  }) {
     var replace = false;
     if (routeInformation is AutoRouteInformation) {
       replace = routeInformation.replace;
@@ -52,14 +53,14 @@ class AutoRouteInformationProvider extends RouteInformationProvider
 
   @override
   void addListener(VoidCallback listener) {
-    if (!hasListeners) WidgetsBinding.instance!.addObserver(this);
+    if (!hasListeners) WidgetsBinding.instance.addObserver(this);
     super.addListener(listener);
   }
 
   @override
   void removeListener(VoidCallback listener) {
     super.removeListener(listener);
-    if (!hasListeners) WidgetsBinding.instance!.removeObserver(this);
+    if (!hasListeners) WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
@@ -68,7 +69,7 @@ class AutoRouteInformationProvider extends RouteInformationProvider
     // will be added and removed in a coherent fashion such that when the object
     // is no longer being used, there's no listener, and so it will get garbage
     // collected.
-    if (hasListeners) WidgetsBinding.instance!.removeObserver(this);
+    if (hasListeners) WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
